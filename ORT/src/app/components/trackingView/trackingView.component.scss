@@ -1,0 +1,13 @@
+.tracking-view {
+  margin: 16px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 32px);
+}
+
+.map-wrapper {
+  width: 100%;
+  height: 70%;
+  border-radius: 16px;
+  overflow: hidden;
+}

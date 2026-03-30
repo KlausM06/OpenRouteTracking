@@ -9,17 +9,17 @@ export const routes: Routes = [
       {
         path: 'statsTab',
         loadComponent: () =>
-          import('../statsTab/statsTab.page').then((m) => m.statsTabPage),
+          import('./statsTab/statsTab.page').then((m) => m.statsTabPage),
       },
       {
         path: 'trackingTab',
         loadComponent: () =>
-          import('../trackingTab/trackingTab.page').then((m) => m.trackingTabPage),
+          import('./trackingTab/trackingTab.page').then((m) => m.trackingTabPage),
       },
       {
         path: 'settingsTab',
         loadComponent: () =>
-          import('../settingsTab/settingsTab.page').then((m) => m.settingsTabPage),
+          import('./settingsTab/settingsTab.page').then((m) => m.settingsTabPage),
       },
       {
         path: '',
