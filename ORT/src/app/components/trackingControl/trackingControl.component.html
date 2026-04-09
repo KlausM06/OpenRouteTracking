@@ -1,0 +1,6 @@
+<div class="tracking-control">
+  <!--TODO: Implement color for loading-->
+  <ion-button (click)="toggleTracking()" [color]="(trackingService.trackingStatus$ | async) ? 'danger' : 'success'" class="tracking-button">
+    {{ (trackingService.trackingStatus$ | async) ? 'Stop' : 'Start' }} Tracking
+  </ion-button>
+</div>

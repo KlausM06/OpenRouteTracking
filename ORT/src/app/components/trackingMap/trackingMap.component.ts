@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import * as L from 'leaflet';
-import { LocationService } from '../../services/locationService';
+import { LocationService } from '../../services/location-service';
 import { Position } from '@capacitor/geolocation';
 
 @Component({
@@ -20,12 +20,19 @@ export class TrackingMapComponent implements OnInit {
   map: any;
   userPosition!: L.LatLng;
   userMarker!: L.Marker;
+  userMarkerIcon!: L.Icon;
   followMarker: boolean = false;
   watchId: string | null = null;
 
-  ngAfterViewInit() {
+  async ngAfterViewInit() {
+    this.userMarkerIcon = L.icon({
+      iconUrl: 'assets/icons/user-marker.svg',
+      iconSize: [20, 20],
+      iconAnchor: [10, 10]
+    });
+
     if (this.livePosition) {
-      this.locationService.watchPosition((c) => { this.updateUserPosition(c) })
+      this.locationService.watchPosition((c) => { this.updateUserPosition(c) }).then((wID) => { this.watchId = wID });
     }
 
     this.loadMap();
@@ -86,7 +93,7 @@ export class TrackingMapComponent implements OnInit {
           this.followMarker = true;
 
           if (this.userPosition) {
-            this.map.flyTo(this.userPosition, 16);
+            this.map.flyTo(this.userPosition, 18);
           }
         };
 
@@ -98,23 +105,16 @@ export class TrackingMapComponent implements OnInit {
   }
 
   private updateUserPosition(pos: Position) {
-    const userMarkerIcon = L.icon({
-      iconUrl: 'assets/icons/user-marker.svg',
-      iconSize: [20, 20],
-      iconAnchor: [10, 10]
-    });
-
     this.userPosition = L.latLng(pos.coords.latitude, pos.coords.longitude);
     console.log(this.userPosition);
 
     if (!this.userMarker) {
-      this.userMarker = L.marker(this.userPosition, { icon: userMarkerIcon }).addTo(this.map);
+      this.userMarker = L.marker(this.userPosition, { icon: this.userMarkerIcon }).addTo(this.map);
       this.map.setView(this.userPosition, this.map.getZoom());
     } else {
       this.userMarker.setLatLng(this.userPosition);
-      debugger
       if (this.followMarker) {
-        this.map.flyTo(this.userPosition, this.map.getZoom());
+        this.map.flyTo(this.userPosition, this.map.getZoom(), { duration: 0.5 });
       }
     }
   }
