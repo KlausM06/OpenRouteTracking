@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RoutePoint, trackingStatus } from '../models/tracking.interfaces';
+import { RoutePoint, TrackingStatus } from '../models/tracking.interfaces';
 import { LocationService } from './location-service';
 import { BehaviorSubject } from 'rxjs';
 
@@ -8,7 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class TrackingService {
 
-  trackingStatusSubject = new BehaviorSubject<trackingStatus>(trackingStatus.off);
+  trackingStatusSubject = new BehaviorSubject<TrackingStatus>("off");
   trackingStatus$ = this.trackingStatusSubject.asObservable();
 
   private watchID: string | null = null;
@@ -36,21 +36,22 @@ export class TrackingService {
         lng: coords.longitude,
         timestamp
       };
-
+      console.log(point);
+      
       this.route.push(point);
 
-    }).then((wID) => { this.watchID = wID; this.trackingStatusSubject.next(trackingStatus.on) });
-    this.trackingStatusSubject.next(trackingStatus.loading);
+    }).then((wID) => { this.watchID = wID; this.trackingStatusSubject.next("on") });
+    this.trackingStatusSubject.next("loading");
   }
 
   stopTracking() {
-    if (!this.watchID || this.trackingStatusSubject.value == trackingStatus.loading) return;
+    if (!this.watchID || this.trackingStatusSubject.value == "loading") return;
 
     this.locationService.clearWatch(this.watchID);
     console.log(this.route); // TODO: persist data here
     this.route = []
     this.watchID = null;
-    this.trackingStatusSubject.next(trackingStatus.off);
+    this.trackingStatusSubject.next("off");
   }
 
   pauseTracking() {

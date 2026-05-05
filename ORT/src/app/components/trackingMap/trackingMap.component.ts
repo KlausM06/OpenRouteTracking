@@ -106,7 +106,6 @@ export class TrackingMapComponent implements OnInit {
 
   private updateUserPosition(pos: Position) {
     this.userPosition = L.latLng(pos.coords.latitude, pos.coords.longitude);
-    console.log(this.userPosition);
 
     if (!this.userMarker) {
       this.userMarker = L.marker(this.userPosition, { icon: this.userMarkerIcon }).addTo(this.map);

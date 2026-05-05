@@ -1,6 +1,9 @@
 <div class="tracking-control">
   <!--TODO: Implement color for loading-->
-  <ion-button (click)="toggleTracking()" [color]="(trackingService.trackingStatus$ | async) ? 'danger' : 'success'" class="tracking-button">
-    {{ (trackingService.trackingStatus$ | async) ? 'Stop' : 'Start' }} Tracking
-  </ion-button>
+  <ng-container *ngIf="trackingService.trackingStatus$ | async as status">
+    <ion-button (click)="toggleTracking()" [color]="buttonStyles[status].color" class="tracking-button"
+      [disabled]="status === 'loading'">
+      {{ buttonStyles[status].text }}
+    </ion-button>
+  </ng-container>
 </div>

@@ -11,8 +11,4 @@ export interface Route {
     routePoints: RoutePoint[]
 }
 
-export enum trackingStatus {
-    off,
-    on,
-    loading
-}
+export type TrackingStatus = 'on' | 'off' | 'loading';
