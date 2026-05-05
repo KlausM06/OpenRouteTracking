@@ -5,7 +5,10 @@ export interface RoutePoint {
 }
 
 export interface Route {
-    _id: string,
+    _id?: string,
+    _rev?: string;
+    type: 'route'; // for PouchDB
+    description: string;
     starttime: number,
     endtime: number,
     routePoints: RoutePoint[]
